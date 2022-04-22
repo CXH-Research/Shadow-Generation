@@ -7,6 +7,16 @@ import cv2
 import argparse
 import os
 
+
+def save_image(tensor, mask, dir, name):
+    tensor = tensor.numpy() * 255
+    tensor = tensor.astype(np.uint8)
+    if mask:
+        tensor = Image.fromarray(tensor).convert("L")
+    else:
+        tensor = Image.fromarray(tensor).convert("RGB")
+    tensor.save(os.path.join(dir, name))
+
 parser = argparse.ArgumentParser(
     description='This is the composition method to generate shadow')
 parser.add_argument('--min_val', type=int, default=0.7,
@@ -45,13 +55,4 @@ for inp in inputs:
     
     save_image(intensity_mask, True, 'mask', inp)
     save_image(shadow, False, 'output', inp)
-    
 
-def save_image(tensor, mask, dir, name):
-    tensor = tensor.numpy() * 255
-    tensor = tensor.astype(np.uint8)
-    if mask:
-        tensor = Image.fromarray(tensor).convert("L")
-    else:
-        tensor = Image.fromarray(tensor).convert("RGB")
-    tensor.save(os.path.join(dir, name))
