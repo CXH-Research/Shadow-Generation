@@ -23,11 +23,11 @@ min_alpha and max_alpha are between 0 and 1.
 align mode means that your shadow-free and shadow mask form 1 to 1 pair and they share the same name and format.
 random mode will pick random mask from the mask folder and combine with input file.
 
-Example input
+## Example input
 ![input](./example_input.png)
 
-Example mask
+## Example mask
 ![mask](./example_mask.png)
 
-Example output
+## Example output
 ![output](./example_output.png)
