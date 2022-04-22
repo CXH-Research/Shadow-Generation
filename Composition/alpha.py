@@ -40,6 +40,8 @@ width = args.width
 
 inputs = os.listdir('input')
 masks = os.listdir('mask')
+inputs.remove('.gitkeep')
+masks.remove('.gitkeep')
 
 for inp in inputs:
     inp_img = cv2.imread(os.path.join('input', inp))
