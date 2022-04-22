@@ -11,7 +11,7 @@ Require tensorflow==1.15, opencv, numpy and scipy module.
 ```
 Generation
  ┣ input(Place all your shadow-free images here)
- ┣ mask(Place all your shadow mask images here)
+ ┣ mask(Your mask images will be generated here)
  ┣ output(Your shadow images will be generated here)
  ┣ gen_shadow.py
  ┣ datasets.py
@@ -22,17 +22,13 @@ Generation
 ## Command to run the program.
 
 ```python
-python gen_shadow.py --height image_height --width image_width
+python gen_shadow.py --min_val min_val --height image_height --width image_width
 ```
 
-## Example input
+### Note
+Render per-pixel intensity variation mask within [min_val, 1.]
 
-![input](./example_input.png)
+Only support jpg & png format images
 
-## Example mask
-
-![mask](./example_mask.png)
-
-## Example output
-
-![output](./example_output.png)
+## Example
+![example](./example.png)

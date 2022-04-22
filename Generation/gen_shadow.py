@@ -1,9 +1,9 @@
 import utils as utils
-import matplotlib.pyplot as plt
 import random
 import numpy as np
-import cv2
 import tensorflow as tf
+from PIL import Image
+import cv2
 import argparse
 import os
 
@@ -20,12 +20,14 @@ args = parser.parse_args()
 tf.compat.v1.enable_eager_execution(
     config=None, device_policy=None, execution_mode=None
 )
+
 TONE_SIGMA = 0.1
 SS_SIGMA = 0.5
 
 size = (args.height, args.width)
 
 inputs = os.listdir('input')
+inputs.remove('.gitkeep')
 
 for inp in inputs:
     img_format = inp.split('.')[-1]
@@ -38,8 +40,18 @@ for inp in inputs:
     # create mask
     min_val = random.uniform(args.min_val, 1)
     intensity_mask = utils.get_brightness_mask(size=size, min_val=0.7)
-    tf.gfile.FastGFile(os.path.join('mask', inp), intensity_mask)
     bg = cv2.resize(bg.numpy(), size)
-    new_bg = bg * tf.expand_dims(intensity_mask, 2)
-    tf.gfile.FastGFile(os.path.join('output', inp), new_bg)
+    shadow = bg * tf.expand_dims(intensity_mask, 2)
+    
+    save_image(intensity_mask, True, 'mask', inp)
+    save_image(shadow, False, 'output', inp)
+    
 
+def save_image(tensor, mask, dir, name):
+    tensor = tensor.numpy() * 255
+    tensor = tensor.astype(np.uint8)
+    if mask:
+        tensor = Image.fromarray(tensor).convert("L")
+    else:
+        tensor = Image.fromarray(tensor).convert("RGB")
+    tensor.save(os.path.join(dir, name))
