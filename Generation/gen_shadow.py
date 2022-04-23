@@ -22,9 +22,9 @@ parser = argparse.ArgumentParser(
     description='This is the composition method to generate shadow')
 parser.add_argument('--min_val', type=int, default=0.7,
                     help='Render per-pixel intensity variation mask within [min_val, 1.]')
-parser.add_argument('--height', type=int, default=256,
+parser.add_argument('--height', type=int, default=1754,
                     help='Image height')
-parser.add_argument('--width', type=int, default=256,
+parser.add_argument('--width', type=int, default=1240,
                     help='Image width')
 parser.add_argument('--num_shadow', type=int, default=1,
                     help='Number of shadows')
@@ -54,6 +54,8 @@ for inp in tqdm(inputs):
         bg = utils.read_float(os.path.join('input', inp),
                               channel=3, itype='jpg', is_linear=False)
     bg = cv2.resize(bg.numpy(), (args.width, args.height))
+    save_bg = Image.fromarray((bg * 255).astype(np.uint8)).convert("RGB")
+    save_bg.save(os.path.join('input', inp))
     # create mask
     for i in range(0, args.num_shadow):
         min_val = random.uniform(args.min_val, 1)

@@ -33,7 +33,7 @@ python gen_mask.py --min_val min_val --height image_height --width image_width -
 ```
 
 ### Note
-After finishing, it will generate a label.csv indicates the file path of input, mask and shadows respectively
+After finishing, it will generate a label.csv indicates the file path of input, mask and shadows respectively. It will overwrites your input images to the new shape, please be aware.
 
 Render per-pixel intensity variation mask within [min_val, 1.]
 
