@@ -53,11 +53,11 @@ for inp in inputs:
     else:
         bg = utils.read_float(os.path.join('input', inp),
                               channel=3, itype='jpg', is_linear=False)
+    bg = cv2.resize(bg.numpy(), (args.width, args.height))
     # create mask
     for i in range(0, args.num_shadow):
         min_val = random.uniform(args.min_val, 1)
         intensity_mask = utils.get_brightness_mask(size=size, min_val=0.7)
-        bg = cv2.resize(bg.numpy(), (args.width, args.height))
         shadow = bg * tf.expand_dims(intensity_mask, 2)
         
         filename = str(i) + '_' + inp
