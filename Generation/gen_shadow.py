@@ -7,7 +7,7 @@ import cv2
 import argparse
 import os
 import pandas as pd
-
+from tqdm import tqdm
 
 def save_image(tensor, mask, dir, name):
     tensor = tensor.numpy() * 255
@@ -45,7 +45,7 @@ inputs.remove('.gitkeep')
 columns = ['input', 'mask', 'output']
 df = pd.DataFrame(columns=columns)
 
-for inp in inputs:
+for inp in tqdm(inputs):
     img_format = inp.split('.')[-1]
     if img_format == 'png':
         bg = utils.read_float(os.path.join('input', inp),

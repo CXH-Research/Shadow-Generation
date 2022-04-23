@@ -5,6 +5,7 @@ import tensorflow as tf
 from PIL import Image
 import argparse
 import os
+from tqdm import trange
 
 
 def save_image(tensor, mask, dir, name):
@@ -38,7 +39,7 @@ SS_SIGMA = 0.5
 
 size = (args.height, args.width)
 
-for i in range(0, args.num_mask):
+for i in trange(args.num_mask):
     min_val = random.uniform(args.min_val, 1)
     intensity_mask = utils.get_brightness_mask(size=size, min_val=0.7)
     save_image(intensity_mask, True, 'mask', str(i) + '.png')

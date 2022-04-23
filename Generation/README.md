@@ -4,7 +4,7 @@ This is a shadow generation method. The shadow produced in this manner is of hig
 
 Based on [GitHub - google/portrait-shadow-manipulation](https://github.com/google/portrait-shadow-manipulation)
 
-Require tensorflow==1.15, opencv, numpy and scipy module.
+Require tensorflow==1.15, opencv, numpy, pillow, tqdm and scipy module.
 
 ## Your folder structure should look like this:
 
