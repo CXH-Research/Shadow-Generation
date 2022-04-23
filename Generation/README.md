@@ -29,7 +29,7 @@ python gen_shadow.py --min_val min_val --height image_height --width image_width
 ```
 If you just want mask, you can use gen_mask.py
 ```python
-python gen_shadow.py --min_val min_val --height image_height --width image_width --num_mask number of masks
+python gen_mask.py --min_val min_val --height image_height --width image_width --num_mask number of masks
 ```
 
 ### Note
