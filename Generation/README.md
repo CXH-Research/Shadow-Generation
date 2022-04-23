@@ -13,16 +13,23 @@ Generation
  ┣ input(Place all your shadow-free images here)
  ┣ mask(Your mask images will be generated here)
  ┣ output(Your shadow images will be generated here)
- ┣ gen_shadow.py
  ┣ datasets.py
+ ┣ example.png
+ ┣ gen_mask.py
+ ┣ gen_shadow.py
  ┣ utils.py
  ┗ README.md
 ```
 
 ## Command to run the program.
 
+Use gen_shadow.py to generate shadow images
 ```python
 python gen_shadow.py --min_val min_val --height image_height --width image_width
+```
+If you just want mask, you can use gen_mask.py
+```python
+python gen_shadow.py --min_val min_val --height image_height --width image_width --num_mask number of masks
 ```
 
 ### Note
