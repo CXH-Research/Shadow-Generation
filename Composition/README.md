@@ -2,7 +2,7 @@
 
 Use alpha parameter to combine shadow and image directly. The shadow produced in this manner is of poor quality. But it is very efficient and can produce large-scale shadow data easily.
 
-Require opencv, numpy, pandas and tqdm module.
+Require pytorch, opencv, numpy, pandas and tqdm module.
 
 ## Your folder structure should look like this:
 
