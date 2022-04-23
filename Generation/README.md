@@ -25,7 +25,7 @@ Generation
 
 Use gen_shadow.py to generate shadow images
 ```python
-python gen_shadow.py --min_val min_val --height image_height --width image_width
+python gen_shadow.py --min_val min_val --height image_height --width image_width  --num_shadow number of shadows
 ```
 If you just want mask, you can use gen_mask.py
 ```python
@@ -33,9 +33,13 @@ python gen_mask.py --min_val min_val --height image_height --width image_width -
 ```
 
 ### Note
+After finishing, it will generate a label.csv indicates the file path of input, mask and shadows respectively
+
 Render per-pixel intensity variation mask within [min_val, 1.]
 
 Only support jpg & png format images
+
+num_shadow generate multiple shadow images at a time
 
 ## Example
 ![example](./example.png)

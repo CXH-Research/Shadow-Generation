@@ -6,6 +6,7 @@ from PIL import Image
 import cv2
 import argparse
 import os
+import pandas as pd
 
 
 def save_image(tensor, mask, dir, name):
@@ -25,6 +26,8 @@ parser.add_argument('--height', type=int, default=256,
                     help='Image height')
 parser.add_argument('--width', type=int, default=256,
                     help='Image width')
+parser.add_argument('--num_shadow', type=int, default=1,
+                    help='Number of shadows')
 args = parser.parse_args()
 
 tf.compat.v1.enable_eager_execution(
@@ -39,6 +42,9 @@ size = (args.height, args.width)
 inputs = os.listdir('input')
 inputs.remove('.gitkeep')
 
+columns = ['input', 'mask', 'output']
+df = pd.DataFrame(columns=columns)
+
 for inp in inputs:
     img_format = inp.split('.')[-1]
     if img_format == 'png':
@@ -48,11 +54,17 @@ for inp in inputs:
         bg = utils.read_float(os.path.join('input', inp),
                               channel=3, itype='jpg', is_linear=False)
     # create mask
-    min_val = random.uniform(args.min_val, 1)
-    intensity_mask = utils.get_brightness_mask(size=size, min_val=0.7)
-    bg = cv2.resize(bg.numpy(), size)
-    shadow = bg * tf.expand_dims(intensity_mask, 2)
-    
-    save_image(intensity_mask, True, 'mask', inp)
-    save_image(shadow, False, 'output', inp)
+    for i in range(0, args.num_shadow):
+        min_val = random.uniform(args.min_val, 1)
+        intensity_mask = utils.get_brightness_mask(size=size, min_val=0.7)
+        bg = cv2.resize(bg.numpy(), (args.width, args.height))
+        shadow = bg * tf.expand_dims(intensity_mask, 2)
+        
+        filename = str(i) + '_' + inp
+        save_image(intensity_mask, True, 'mask', filename)
+        save_image(shadow, False, 'output', filename)
+        row = {'input': os.path.join('input', inp), 'mask': os.path.join('mask', filename), 'output': os.path.join('output', filename)}
+        df = pd.concat([df, pd.DataFrame([row])])
+        df = df[columns]
 
+df.to_csv('./label.csv', encoding='utf-8', index=False)

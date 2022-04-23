@@ -19,13 +19,15 @@ Composition
 python alpha.py --alpha_min min_alpha --alpha_max max_alpha --height image_height --width image_width --mode align or random --num_shadow only available in random mode
 ```
 ### Note
+After finishing, it will generate a label.csv indicates the file path of input, mask and shadows respectively
+
 min_alpha and max_alpha are between 0 and 1
 
 align mode means that your shadow-free and shadow mask form 1 to 1 pair and they share the same name and format
 
 random mode will pick random mask from the mask folder and combine with input file
 
-num_shadow generate multiple shadow images at a time, only available in random mode
+num_shadow generate multiple shadow images at a time, only available in random mode, should be less than the number of masks
 
 ## Example input
 ![input](./example_input.png)
