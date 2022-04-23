@@ -5,6 +5,7 @@ import argparse
 from sys import argv
 import random
 import os
+import pandas as pd
 
 def save_shadow(mask_img, filename):
     mask_img = cv2.resize(mask_img, (width, height))
@@ -43,20 +44,28 @@ masks = os.listdir('mask')
 inputs.remove('.gitkeep')
 masks.remove('.gitkeep')
 
+columns = ['input', 'mask', 'output']
+df = pd.DataFrame(columns=columns)
+
 for inp in inputs:
     inp_img = cv2.imread(os.path.join('input', inp))
     inp_img = cv2.resize(inp_img, (width, height))
     if args.mode == 'align':
         mask_img = cv2.imread(os.path.join('mask', inp))
         save_shadow(mask_img, inp)
+        row = {'input': os.path.join('input', inp), 'mask': os.path.join('mask', inp), 'output': os.path.join('output', inp)}
     else:
         sampled_shadows = random.sample(masks, args.num_shadow)
         cnt = 1
         for shadow in sampled_shadows:
             mask_img = cv2.imread(os.path.join('mask', shadow))
-            save_shadow(mask_img, str(cnt) + '_shadow_' + inp)
+            filename = str(cnt) + '_shadow_' + inp
+            save_shadow(mask_img, filename)
             cnt += 1
+            row = {'input': os.path.join('input', inp), 'mask': os.path.join('mask', shadow), 'output': os.path.join('output', filename)}
+    df = pd.concat([df, pd.DataFrame([row])])
+    df = df[columns]
 
-    
+df.to_csv('./label.csv', encoding='utf-8', index=False)
 
 
