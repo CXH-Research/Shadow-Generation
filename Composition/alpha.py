@@ -6,6 +6,7 @@ from sys import argv
 import random
 import os
 import pandas as pd
+from tqdm import tqdm
 
 def save_shadow(mask_img, filename):
     mask_img = cv2.resize(mask_img, (width, height))
@@ -47,9 +48,10 @@ masks.remove('.gitkeep')
 columns = ['input', 'mask', 'output']
 df = pd.DataFrame(columns=columns)
 
-for inp in inputs:
+for inp in tqdm(inputs):
     inp_img = cv2.imread(os.path.join('input', inp))
     inp_img = cv2.resize(inp_img, (width, height))
+    cv2.imwrite(os.path.join('input', inp), inp_img)
     if args.mode == 'align':
         mask_img = cv2.imread(os.path.join('mask', inp))
         save_shadow(mask_img, inp)
