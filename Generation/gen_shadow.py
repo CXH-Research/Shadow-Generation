@@ -22,9 +22,9 @@ parser = argparse.ArgumentParser(
     description='This is the composition method to generate shadow')
 parser.add_argument('--min_val', type=int, default=0.7,
                     help='Render per-pixel intensity variation mask within [min_val, 1.]')
-parser.add_argument('--height', type=int, default=1754,
+parser.add_argument('--height', type=int, default=842,
                     help='Image height')
-parser.add_argument('--width', type=int, default=1240,
+parser.add_argument('--width', type=int, default=595,
                     help='Image width')
 parser.add_argument('--num_shadow', type=int, default=1,
                     help='Number of shadows')
