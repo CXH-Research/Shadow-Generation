@@ -62,10 +62,11 @@ for inp in tqdm(inputs):
         intensity_mask = utils.get_brightness_mask(size=size, min_val=0.7)
         shadow = bg * tf.expand_dims(intensity_mask, 2)
         
-        filename = str(i) + '_' + inp
-        save_image(intensity_mask, True, 'mask', filename)
-        save_image(shadow, False, 'output', filename)
-        row = {'input': os.path.join('input', inp), 'mask': os.path.join('mask', filename), 'output': os.path.join('output', filename)}
+        mask_filename = str(i) + '_mask_' + inp
+        shadow_filename = str(i) + '_shadow_' + inp
+        save_image(intensity_mask, True, 'mask', mask_filename)
+        save_image(shadow, False, 'output', shadow_filename)
+        row = {'input': os.path.join('input', inp), 'mask': os.path.join('mask', mask_filename), 'output': os.path.join('output', shadow_filename)}
         df = pd.concat([df, pd.DataFrame([row])])
         df = df[columns]
 
