@@ -42,8 +42,6 @@ size = (args.height, args.width)
 inputs = os.listdir('input')
 inputs.remove('.gitkeep')
 
-columns = ['input', 'mask', 'output']
-df = pd.DataFrame(columns=columns)
 
 for inp in tqdm(inputs):
     img_format = inp.split('.')[-1]
@@ -55,19 +53,15 @@ for inp in tqdm(inputs):
                               channel=3, itype='jpg', is_linear=False)
     bg = cv2.resize(bg.numpy(), (args.width, args.height))
     save_bg = Image.fromarray((bg * 255).astype(np.uint8)).convert("RGB")
-    save_bg.save(os.path.join('input', inp))
+    
     # create mask
     for i in range(0, args.num_shadow):
         min_val = random.uniform(args.min_val, 1)
         intensity_mask = utils.get_brightness_mask(size=size, min_val=0.7)
         shadow = bg * tf.expand_dims(intensity_mask, 2)
         
-        mask_filename = str(i) + '_mask_' + inp
-        shadow_filename = str(i) + '_shadow_' + inp
-        save_image(intensity_mask, True, 'mask', mask_filename)
-        save_image(shadow, False, 'output', shadow_filename)
-        row = {'input': os.path.join('input', inp), 'mask': os.path.join('mask', mask_filename), 'output': os.path.join('output', shadow_filename)}
-        df = pd.concat([df, pd.DataFrame([row])])
-        df = df[columns]
+        filename = str(i) + '_' + inp
+        save_image(intensity_mask, True, 'mask', filename)
+        save_image(shadow, False, 'output', filename)
+        save_bg.save(os.path.join('origin', filename))
 
-df.to_csv('./label.csv', encoding='utf-8', index=False)
